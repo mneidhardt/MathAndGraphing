@@ -2,7 +2,6 @@ package dk.meem.graphing;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
 import dk.meem.graphing.primitive.Point;
 
@@ -30,6 +29,7 @@ abstract class Mathfunction {
 			Point p0 = this.evaluate(x - step);
 			Point p1 = this.evaluate(x);
 			g.drawLine((int) p0.getX(), maxY - (int) p0.getY(), (int) p1.getX(), maxY - (int) p1.getY());
+			//g.drawLine((int) p0.getX(), (int)p0.getY(), (int) p1.getX(), (int) p1.getY());
 
 			/*
 			 * double diff = this.derivative(x);

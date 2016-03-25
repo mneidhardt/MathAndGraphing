@@ -15,15 +15,20 @@ public class Polynomial extends Mathfunction {
 	}
 	
     public void draw(Graphics2D g) {
-        super.draw(g,  1,  74, 1, graphColor);
+        super.draw(g, 0, maxX, 1, graphColor);
     }
 
     /* Evaluates point on ellipsis at time t.
      */
     @Override public Point evaluate(double x) {
-    	//return new Point(x, Math.round(0.005*Math.pow(x, 2)));
-        return new Point(x, 45*Math.round(Math.pow(x, 3)/Math.pow(2, x)));
-        //return new Point(x, Math.round(0.005*Math.pow(x, 3) - 0.005*Math.pow(x, 2) - 3*x + 320));
+    	double realx = x;
+    	x -= maxX/2;
+    	
+    	return new Point(realx, Math.round(0.005*Math.pow(x, 3) + 0.05*Math.pow(x, 2) + 0.005*x));
+    	//return new Point(realx, Math.round(0.005*Math.pow(x, 2)));
+        //return new Point(realx, 45*Math.round(Math.pow(x, 3)/Math.pow(2, x)));
+        //return new Point(realx, Math.round(0.005*Math.pow(x, 3) - 0.005*Math.pow(x, 2) - 3*x + 320));
+        //return new Point(realx, 250*Math.round(Math.sin(x)/(x)));
     }
     
 }
