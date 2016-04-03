@@ -6,8 +6,6 @@ import java.awt.Graphics2D;
 import dk.meem.graphing.primitive.Point;
 
 abstract class Mathfunction {
-	
-	static final float PI = 3.14159265358979323846f;
 	public int maxX;
 	public int maxY;
 	

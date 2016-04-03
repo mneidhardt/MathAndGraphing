@@ -39,6 +39,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
     Polynomial pol;
     Polynomial2 pol2;
     Polygon polygon;
+    TileElement tilem;
     double zoom;
     
     Mainframe creator;
@@ -61,6 +62,8 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
         this.pol2 = new Polynomial2(maxX, maxY, cof);
         
         this.polygon = new Polygon();
+        this.tilem = new TileElement(maxY);
+        
         this.zoom = 1.0;
 
         creator = cr;
@@ -82,7 +85,6 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
         
         /* New stuff.
 			http://stackoverflow.com/questions/30792089/java-graphics2d-translate-and-scale
-		*/
         double anchorX = (maxX - maxX*zoom)/2;
         double anchorY = (maxY - maxY*zoom)/2;
         AffineTransform at = new AffineTransform();
@@ -90,17 +92,20 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
         at.scale(zoom,  zoom);
         at.translate(-anchorX, -anchorY);
         g.setTransform(at);
+		*/
         /* End new stuff. */
 
         // Old way: g.scale(zoom,  zoom);
         
         //ell.draw(g);
         //trig.draw(g);
-        pol2.draw(g);
+        //pol2.draw(g);
         
-        if ( ! polygon.isEmpty()) {
-        	polygon.draw(g);
-        }
+        //if ( ! polygon.isEmpty()) {
+        //	polygon.draw(g);
+        //}
+        
+        tilem.draw(g);
         
         g.dispose();
     }
@@ -131,12 +136,23 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
     
     public void mouseWheelMoved(MouseWheelEvent e) {
     	double step = 0.05;
-    	if (e.getWheelRotation() > 0) { this.zoom += step; }
-    	else if (e.getWheelRotation() < 0) { this.zoom -= step; }
+    	double cw = 1.0;
+    	
+    	if (e.getWheelRotation() > 0) {
+    		this.zoom += step;
+    		cw = -1.0;
+    	}
+    	else if (e.getWheelRotation() < 0) {
+    		this.zoom -= step;
+    		cw = 1.0;
+    	}
 
     	if ( ! polygon.isEmpty()) {
     		System.out.println("Area2= " + polygon.area());
     	}
+
+    	tilem.rotate(Math.PI/180.0*cw, new Point(5, 5));
+
     	repaint();
     }
     

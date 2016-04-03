@@ -22,7 +22,7 @@ public class Ellipse extends Mathfunction {
 	}
 	
     public void draw(Graphics2D g) {
-    	super.draw(g,  0,  PI*2,  0.001, graphColor);
+    	super.draw(g,  0,  Math.PI*2,  0.001, graphColor);
     }
 
     /* Evaluates point on ellipsis at time t.

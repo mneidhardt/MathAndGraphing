@@ -47,6 +47,11 @@ public class Point {
         return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
     }
 
+    public Point rotate(double radians) {
+		return new Point(this.x*Math.cos(radians) - this.y*Math.sin(radians),
+				         this.x*Math.sin(radians) + this.y*Math.cos(radians));
+	}
+
     public String toString() {
         return (int)this.x + "," + (int)this.y;
     }
