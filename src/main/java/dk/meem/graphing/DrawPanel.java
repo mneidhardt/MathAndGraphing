@@ -33,13 +33,24 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
     
     static final int arcwidth=10;			// Width of the circles I draw.
     static final int halfwidth=arcwidth/2;
+    private Color pointcolor = new Color(200,200,200);
     
-    Ellipse ell;
+    /*Ellipse ell;
     Trigonometric trig;
     Polynomial pol;
     Polynomial2 pol2;
     Polygon polygon;
-    TileElement tilem;
+    */
+    List<TileElement> tilering1;
+    List<TileElement> tilering2;
+    List<TileElement> tilering3;
+    List<TileElement> tilering4;
+    List<TileElement> tilering5;
+    List<TileElement> tilering6;
+    List<List> tilerings = new ArrayList<List>();
+    
+    Point pivot;
+
     double zoom;
     
     Mainframe creator;
@@ -50,21 +61,79 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
     DrawPanel(int x, int y, Mainframe cr)	{
         this.maxX=x;
         this.maxY=y;
+        pivot = new Point(maxX/2.0,maxY/2.0);
         setPreferredSize(new Dimension(maxX, maxY));
         addMouseListener(this);
         addMouseMotionListener(this);
         addMouseWheelListener(this);
         
-        ell = new Ellipse(420, 10, 500, -300);
-        trig = new Trigonometric();
-        pol = new Polynomial(maxX, maxY);
-        double[] cof = {0.00001, 0.00002, 0.00003, 0.0004};
-        this.pol2 = new Polynomial2(maxX, maxY, cof);
+        int ytranslate=50;
+        double scalefactor=1.0;
         
-        this.polygon = new Polygon();
-        this.tilem = new TileElement(maxY);
-        
-        this.zoom = 1.0;
+        for (int i=0; i<20; i++) {  // Make 20 rings.
+        	
+        	List<TileElement> tlist = new ArrayList<TileElement>();
+        	
+            for (int j=1; i<=40; i++) { // Each ring has 40 elements.
+            	TileElement tile = new TileElement(maxY, 1);
+            	tile.scale(scalefactor,  scalefactor);
+            	tile.translate(new Point(pivot.getX(), maxY-ytranslate));
+            	tile.rotate(9*j*Math.PI/180, pivot);
+            	tlist.add(tile);
+            }
+            ytranslate += 30;
+            scalefactor -= 0.1;
+            
+            this.tilerings.add(tlist);
+        }
+
+        this.tilering1 = new ArrayList<TileElement>();
+        for (int i=1; i<=40; i++) {
+        	TileElement tile = new TileElement(maxY, 1);
+        	tile.translate(new Point(pivot.getX(), maxY-50));
+        	tile.rotate(9*i*Math.PI/180, pivot);
+        	this.tilering1.add(tile);
+        }
+        this.tilering2 = new ArrayList<TileElement>();
+        for (int i=1; i<=40; i++) {
+        	TileElement tile = new TileElement(maxY, 1);
+        	tile.scale(0.9, 0.9);
+        	tile.translate(new Point(pivot.getX(), maxY-80));
+        	tile.rotate(9*i*Math.PI/180, pivot);
+        	this.tilering2.add(tile);
+        }
+        this.tilering3 = new ArrayList<TileElement>();
+        for (int i=1; i<=40; i++) {
+        	TileElement tile = new TileElement(maxY, 1);
+        	tile.scale(0.8, 0.8);
+        	tile.translate(new Point(pivot.getX(), maxY-110));
+        	tile.rotate(9*i*Math.PI/180, pivot);
+        	this.tilering3.add(tile);
+        }
+        this.tilering4 = new ArrayList<TileElement>();
+        for (int i=1; i<=40; i++) {
+        	TileElement tile = new TileElement(maxY, 1);
+        	tile.scale(0.7, 0.7);
+        	tile.translate(new Point(pivot.getX(), maxY-140));
+        	tile.rotate(9*i*Math.PI/180, pivot);
+        	this.tilering4.add(tile);
+        }
+        this.tilering5 = new ArrayList<TileElement>();
+        for (int i=1; i<=40; i++) {
+        	TileElement tile = new TileElement(maxY, 1);
+        	tile.scale(0.6, 0.6);
+        	tile.translate(new Point(pivot.getX(), maxY-170));
+        	tile.rotate(9*i*Math.PI/180, pivot);
+        	this.tilering5.add(tile);
+        }
+        this.tilering6 = new ArrayList<TileElement>();
+        for (int i=1; i<=40; i++) {
+        	TileElement tile = new TileElement(maxY, 1);
+        	tile.scale(0.5, 0.5);
+        	tile.translate(new Point(pivot.getX(), maxY-200));
+        	tile.rotate(9*i*Math.PI/180, pivot);
+        	this.tilering6.add(tile);
+        }
 
         creator = cr;
     }
@@ -95,17 +164,35 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
 		*/
         /* End new stuff. */
 
-        // Old way: g.scale(zoom,  zoom);
         
-        //ell.draw(g);
-        //trig.draw(g);
-        //pol2.draw(g);
+        for (TileElement tile : tilering1) {
+        	tile.draw(g);
+        }
+        for (TileElement tile : tilering2) {
+        	tile.draw(g);
+        }
+        for (TileElement tile : tilering3) {
+        	tile.draw(g);
+        }
+        for (TileElement tile : tilering4) {
+        	tile.draw(g);
+        }
+        for (TileElement tile : tilering5) {
+        	tile.draw(g);
+        }
+        for (TileElement tile : tilering6) {
+        	tile.draw(g);
+        }
         
-        //if ( ! polygon.isEmpty()) {
-        //	polygon.draw(g);
-        //}
         
-        tilem.draw(g);
+        /*for (List<TileElement> tilering : tilerings) {
+        	for (TileElement tile : tilering) {
+        		tile.draw(g);
+        	}
+        }*/
+        
+        g.setColor(pointcolor);
+        g.fillArc((int)pivot.getX(), (int)pivot.getY(), arcwidth, arcwidth, 0, 360);
         
         g.dispose();
     }
@@ -124,38 +211,30 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
     public void mouseClicked(MouseEvent e) {
-    	if (e.getButton() == 3) {
+    	/*if (e.getButton() == 3) {
     		this.doTriangulation();
     	} else if (e.getButton() == 1) {
     		this.polygon.add(new Point(e.getX(), e.getY()));
-    	}
+    	}*/
     }
     public void mouseMoved(MouseEvent e) {
         setCursor(creator.getCurrCursor());		// Overkill?
     }
     
     public void mouseWheelMoved(MouseWheelEvent e) {
-    	double step = 0.05;
     	double cw = 1.0;
     	
     	if (e.getWheelRotation() > 0) {
-    		this.zoom += step;
     		cw = -1.0;
     	}
     	else if (e.getWheelRotation() < 0) {
-    		this.zoom -= step;
     		cw = 1.0;
     	}
-
-    	if ( ! polygon.isEmpty()) {
-    		System.out.println("Area2= " + polygon.area());
-    	}
-
-    	tilem.rotate(Math.PI/180.0*cw, new Point(5, 5));
-
+    	
     	repaint();
     }
     
+    /*
     private void doTriangulation() {
 		polygon.clear();
 		Triangulator2 tri2 = new Triangulator2();
@@ -178,4 +257,5 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
 		}
     	
     }
+    */
 }
