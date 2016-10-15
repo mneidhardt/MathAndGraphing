@@ -11,6 +11,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -37,10 +38,9 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
     
     /*Ellipse ell;
     Trigonometric trig;
-    Polynomial pol;
-    Polynomial2 pol2;
-    Polygon polygon;
     */
+    //Polygon polygon;
+
     List<TileElement> tilering1;
     List<TileElement> tilering2;
     List<TileElement> tilering3;
@@ -58,7 +58,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
 
 
     // Constructor:
-    DrawPanel(int x, int y, Mainframe cr)	{
+    DrawPanel(int x, int y, Mainframe cr) {
         this.maxX=x;
         this.maxY=y;
         pivot = new Point(maxX/2.0,maxY/2.0);
@@ -67,9 +67,47 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
         addMouseMotionListener(this);
         addMouseWheelListener(this);
         
+        this.initQE();
+        
+        creator = cr;
+    }
+
+    public void initQE() {
+    	double[][] cof = {
+    			{0.00001, 0.00002, 0.00003, 0.0004},
+    			{0.00001, 0.00002, 0.00003},
+    			{0.0, -5, 15},
+    			{6, -5, 1},
+    			{1, -2, 2}
+    	};
+    	
+		for (int i = 0; i < cof.length; i++) {
+			try {
+				QuadraticEquation qe = new QuadraticEquation(maxX, maxY, cof[i]);
+				System.out.println(qe.getEquation());
+				qe.solve();
+				System.out.println("d = " + qe.getD());
+				if (qe.getD() >= 0.0) {
+					for (double root : qe.getRoots()) {
+						System.out.println("root = " + root);
+					}
+				} else {
+					System.out.println("No real roots.");
+				}
+			} catch (IOException ie) {
+				System.out.println("IOException: " + ie.getMessage());
+			}
+			System.out.println("------------------------------------");
+		}
+		
+		System.exit(0);
+    }
+
+
+    public void initTiles() throws IOException {
         int ytranslate=50;
         double scalefactor=1.0;
-        
+
         for (int i=0; i<20; i++) {  // Make 20 rings.
         	
         	List<TileElement> tlist = new ArrayList<TileElement>();
@@ -133,11 +171,8 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
         	tile.translate(new Point(pivot.getX(), maxY-200));
         	tile.rotate(9*i*Math.PI/180, pivot);
         	this.tilering6.add(tile);
-        }
-
-        creator = cr;
+        }	
     }
-
 
     public void clearCurve() {
         repaint();
@@ -164,7 +199,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
 		*/
         /* End new stuff. */
 
-        
+        /*
         for (TileElement tile : tilering1) {
         	tile.draw(g);
         }
@@ -183,7 +218,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
         for (TileElement tile : tilering6) {
         	tile.draw(g);
         }
-        
+        */
         
         /*for (List<TileElement> tilering : tilerings) {
         	for (TileElement tile : tilering) {
