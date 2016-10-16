@@ -14,6 +14,7 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.awt.Color;
@@ -84,11 +85,13 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
 		for (int i = 0; i < cof.length; i++) {
 			try {
 				QuadraticEquation qe = new QuadraticEquation(maxX, maxY, cof[i]);
-				System.out.println(qe.getEquation());
-				qe.solve();
+				System.out.println(qe.toString());
+				Set<Double> roots = qe.solve();
+				
 				System.out.println("d = " + qe.getD());
+				
 				if (qe.getD() >= 0.0) {
-					for (double root : qe.getRoots()) {
+					for (double root : roots) {
 						System.out.println("root = " + root);
 					}
 				} else {

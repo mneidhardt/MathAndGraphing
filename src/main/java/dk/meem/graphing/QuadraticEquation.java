@@ -2,12 +2,11 @@ package dk.meem.graphing;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class QuadraticEquation extends Polynomial {
 	private double d;
-	private List<Double> roots;
 	
 	public QuadraticEquation(int maxX, int maxY, double[] coefficients) throws IOException {
 		super(maxX, maxY, coefficients);
@@ -19,8 +18,8 @@ public class QuadraticEquation extends Polynomial {
 		}
 	}
 	
-	public void solve() {
-		roots = new ArrayList<Double>();
+	public Set<Double> solve() {
+		Set<Double> roots = new HashSet<Double>();
 		this.d = Math.pow(this.coefficients[1], 2) - 4*this.coefficients[0]*this.coefficients[2];
 		
 		if (d > 0.0) {
@@ -31,9 +30,11 @@ public class QuadraticEquation extends Polynomial {
 		} else {
 			// System.out.println("d < 0, kun komplekse rødder.");
 		}
+		
+		return roots;
 	}
 	
-	public String getEquation() {
+	public String toString() {
 		return this.coefficients[0] + "x^2 + " +
 	           this.coefficients[1] + "x + " +
 			   this.coefficients[2] + " = 0.";
@@ -41,9 +42,5 @@ public class QuadraticEquation extends Polynomial {
 
 	public double getD() {
 		return d;
-	}
-
-	public List<Double> getRoots() {
-		return roots;
 	}
 }
