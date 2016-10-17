@@ -13,24 +13,28 @@ public class QuadraticEquation extends Polynomial {
 		
 		if (coefficients.length != 3) {
 			throw new IOException("Must have exactly 3 coefficients.");
-		} else if (coefficients[0] == 0) {
-			throw new IOException("'a' cannot be zero.");
 		}
 	}
 	
 	public Set<Double> solve() {
 		Set<Double> roots = new HashSet<Double>();
-		this.d = Math.pow(this.coefficients[1], 2) - 4*this.coefficients[0]*this.coefficients[2];
-		
-		if (d > 0.0) {
-			roots.add((-this.coefficients[1]-Math.sqrt(d))/(2*this.coefficients[0]));			
-			roots.add((-this.coefficients[1]+Math.sqrt(d))/(2*this.coefficients[0]));
-		} else if (d == 0) {
-			roots.add((-this.coefficients[1])/2*this.coefficients[0]);
+
+		if (coefficients[0] == 0 && coefficients[1] != 0) {
+			double r = -1*(coefficients[2] / coefficients[1]);
+			roots.add(r);
 		} else {
-			// System.out.println("d < 0, kun komplekse rødder.");
+			this.d = Math.pow(this.coefficients[1], 2) - 4 * this.coefficients[0] * this.coefficients[2];
+
+			if (d > 0.0) {
+				roots.add((-this.coefficients[1] - Math.sqrt(d)) / (2 * this.coefficients[0]));
+				roots.add((-this.coefficients[1] + Math.sqrt(d)) / (2 * this.coefficients[0]));
+			} else if (d == 0) {
+				roots.add((-this.coefficients[1]) / 2 * this.coefficients[0]);
+			} else {
+				// System.out.println("d < 0, kun komplekse rødder.");
+			}
 		}
-		
+
 		return roots;
 	}
 	

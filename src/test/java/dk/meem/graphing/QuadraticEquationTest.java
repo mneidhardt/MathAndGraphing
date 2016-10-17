@@ -27,17 +27,31 @@ public class QuadraticEquationTest {
     	QuadraticEquation qe = new QuadraticEquation(200, 100, coeff);
 	}
 
-	@Test(expected=IOException.class)
-	public void testQuadraticEquation3() throws IOException {
-    	double[] coeff = {0.0, -5, 15};
-    	QuadraticEquation qe = new QuadraticEquation(200, 100, coeff);
-	}
-
 	@Test
 	public void testQuadraticEquation4() throws IOException {
     	double[] coeff = {0.00001, 0.00002, 0.00003};
 
     	QuadraticEquation qe = new QuadraticEquation(200, 100, coeff);
+	}
+
+	@Test
+	public void testQuadraticEquation3() throws IOException {
+    	double[] coeff = {0, -5, 5*3};
+    	QuadraticEquation qe = new QuadraticEquation(200, 100, coeff);
+    	
+    	Set<Double> roots = new HashSet<Double>();
+    	roots.add(3d);
+    	assertEquals(roots, qe.solve());
+	}
+
+	@Test
+	public void testQuadraticEquation3b() throws IOException {
+    	double[] coeff = {0, 5, 5*3};
+    	QuadraticEquation qe = new QuadraticEquation(200, 100, coeff);
+    	
+    	Set<Double> roots = new HashSet<Double>();
+    	roots.add(-3d);
+    	assertEquals(roots, qe.solve());
 	}
 
 	@Test
