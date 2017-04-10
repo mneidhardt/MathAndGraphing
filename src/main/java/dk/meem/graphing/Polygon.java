@@ -3,20 +3,25 @@ package dk.meem.graphing;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-
 import dk.meem.graphing.primitive.Point;
 
 public class Polygon {
-	private Color graphColor;
-	private ArrayList<Point> polygon;
+	private Color graphColor = new Color(0,0,0);
+	private ArrayList<Point> polygon = new ArrayList<Point>();
 	
 	public Polygon() {
-		this.graphColor = new Color(0,0,0);
-		this.polygon = new ArrayList<Point>();
+	}
+	
+	public Polygon(ArrayList<Point> plist) {
+		this.polygon = plist; 
 	}
 	
 	public void clear() {
 		this.polygon.clear();
+	}
+	
+	public int size() {
+		return polygon.size();
 	}
 	
 	public boolean isEmpty() {
@@ -35,7 +40,7 @@ public class Polygon {
 					   (int)polygon.get(j).getX(), (int)polygon.get(j).getY());
 		}
 		
-		g.drawArc((int)centro.getX(), (int)centro.getY(), 6, 6, 0, 360);
+		//g.drawArc((int)centro.getX(), (int)centro.getY(), 6, 6, 0, 360);
 	}
 	
 	public void add(Point p) {
@@ -72,6 +77,16 @@ public class Polygon {
 		}
 		
 		return Math.abs(result/2.0);
+	}
+
+	@Override
+	public String toString() {
+		String res = "Polygon. polygon=" + System.lineSeparator();
+		for (Point p : this.polygon) {
+			res += p.toString() + System.lineSeparator();
+		}
+		
+		return res;
 	}
 
 }

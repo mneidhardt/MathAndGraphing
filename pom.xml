@@ -21,6 +21,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 <version>4.12</version>
 <scope>test</scope>
 </dependency>
+<!-- https://mvnrepository.com/artifact/org.jscience/jscience -->
+<dependency>
+    <groupId>org.jscience</groupId>
+    <artifactId>jscience</artifactId>
+    <version>4.3.1</version>
+</dependency>
 
 </dependencies>
 

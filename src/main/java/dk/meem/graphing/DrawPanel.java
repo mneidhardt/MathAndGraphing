@@ -2,26 +2,19 @@ package dk.meem.graphing;
 
 import javax.swing.*;
 
-import dk.meem.graphing.primitive.Point;
 import dk.meem.graphing.primitive.Triangle;
+import dk.meem.graphing.primitive.Point;
 
-// import java.awt.*;
+import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 
 
@@ -35,23 +28,9 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
     
     static final int arcwidth=10;			// Width of the circles I draw.
     static final int halfwidth=arcwidth/2;
-    private Color pointcolor = new Color(200,200,200);
     
-    /*Ellipse ell;
-    Trigonometric trig;
-    */
-    //Polygon polygon;
-
-    List<TileElement> tilering1;
-    List<TileElement> tilering2;
-    List<TileElement> tilering3;
-    List<TileElement> tilering4;
-    List<TileElement> tilering5;
-    List<TileElement> tilering6;
-    List<List> tilerings = new ArrayList<List>();
-    
-    Point pivot;
-
+    Polygon polygon;
+    ArrayList<Polygon> mpoly;
     double zoom;
     
     Mainframe creator;
@@ -59,123 +38,28 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
 
 
     // Constructor:
-    DrawPanel(int x, int y, Mainframe cr) {
+    DrawPanel(int x, int y, Mainframe cr)	{
         this.maxX=x;
         this.maxY=y;
-        pivot = new Point(maxX/2.0,maxY/2.0);
         setPreferredSize(new Dimension(maxX, maxY));
         addMouseListener(this);
         addMouseMotionListener(this);
         addMouseWheelListener(this);
-        
-        this.initQE();
-        
+        this.zoom = 1.0;
         creator = cr;
+
+        // Fælledparken skatepark.
+        String geometri =    "723930.2271 6178382.3569, 723934.3453 6178386.6491, 723906.056 6178415.5764, 723910.7127 6178434.6264, 723902.246 6178436.1081, 723886.371 6178441.1881, 723864.5693 6178438.0131, 723853.7743 6178422.5614, 723858.6426 6178377.053, 723842.3442 6178361.178, 723875.3643 6178327.9462, 723930.2271 6178382.3569";
+        String teliaparken = "724461.42 6178878.5, 724441.27 6178854.96, 724427.51 6178866.74, 724431.79 6178871.74, 724416.42 6178884.91, 724412.76 6178888.03, 724334.3 6178796.21, 724339.52 6178791.74, 724329.82 6178780.41, 724357.88 6178756.39, 724351.79 6178749.28, 724439.41 6178674.27, 724445.58 6178681.48, 724472.95 6178658.04, 724496.32 6178685.33, 724503.5 6178679.18, 724554.56 6178738.82, 724547.07 6178745.23, 724570.96 6178773.13, 724543.79 6178796.39, 724549.52 6178803.08, 724527.32 6178822.09, 724461.42 6178878.5";
+        String parken =      "724461.42 6178878.5, 724441.27 6178854.96, 724427.51 6178866.74, 724431.79 6178871.74, 724416.42 6178884.91, 724412.76 6178888.03, 724334.3 6178796.21, 724339.52 6178791.74, 724329.82 6178780.41, 724357.88 6178756.39, 724351.79 6178749.28, 724439.41 6178674.27, 724445.58 6178681.48, 724472.95 6178658.04, 724496.32 6178685.33, 724503.5 6178679.18, 724554.56 6178738.82, 724547.07 6178745.23, 724570.96 6178773.13, 724543.79 6178796.39, 724549.52 6178803.08, 724527.32 6178822.09, 724461.42 6178878.5";
+        String travbaneparken = "727452.728 6170394.3112, 727456.4322 6170196.4025, 727681.3285 6170203.2817, 727680.2701 6170218.6275, 727747.4744 6170219.6858, 727745.3578 6170403.3071, 727452.728 6170394.3112";
+        String skaterparken = "723930.2271 6178382.3569, 723934.3453 6178386.6491, 723906.056 6178415.5764, 723910.7127 6178434.6264, 723902.246 6178436.1081, 723886.371 6178441.1881, 723864.5693 6178438.0131, 723853.7743 6178422.5614, 723858.6426 6178377.053, 723842.3442 6178361.178, 723875.3643 6178327.9462, 723930.2271 6178382.3569";
+        String helsinoerstadion = "(((723938.2021 6217035.3268, 724013.9392 6216954.9595, 724021.2153 6216954.9595, 724069.8325 6217001.5924, 724070.1633 6217008.5377, 723994.4261 6217088.9051, 723988.1423 6217088.9051, 723937.8713 6217042.2722, 723938.2021 6217035.3268)), ((724023.8124 6216933.982, 724105.0681 6216851.5697, 724150.178 6216899.8604, 724069.2115 6216979.9595, 724023.8124 6216933.982)), ((723926.407 6217173.399, 723968.6292 6217123.6317, 724044.6971 6217190.1084, 724005.44 6217236.4486, 723926.407 6217173.399)))";
+
+        mpoly = WKTParser.fromWktMulti(helsinoerstadion);
+        polygon = WKTParser.unitFromWkt(skaterparken);
     }
 
-    public void initQE() {
-    	double[][] cof = {
-    			{0.00001, 0.00002, 0.00003, 0.0004},
-    			{0.00001, 0.00002, 0.00003},
-    			{0.0, -5, 15},
-    			{6, -5, 1},
-    			{1, -2, 2}
-    	};
-    	
-		for (int i = 0; i < cof.length; i++) {
-			try {
-				QuadraticEquation qe = new QuadraticEquation(maxX, maxY, cof[i]);
-				System.out.println(qe.toString());
-				Set<Double> roots = qe.solve();
-				
-				System.out.println("d = " + qe.getD());
-				
-				if (qe.getD() >= 0.0) {
-					for (double root : roots) {
-						System.out.println("root = " + root);
-					}
-				} else {
-					System.out.println("No real roots.");
-				}
-			} catch (IOException ie) {
-				System.out.println("IOException: " + ie.getMessage());
-			}
-			System.out.println("------------------------------------");
-		}
-		
-		System.exit(0);
-    }
-
-
-    public void initTiles() throws IOException {
-        int ytranslate=50;
-        double scalefactor=1.0;
-
-        for (int i=0; i<20; i++) {  // Make 20 rings.
-        	
-        	List<TileElement> tlist = new ArrayList<TileElement>();
-        	
-            for (int j=1; i<=40; i++) { // Each ring has 40 elements.
-            	TileElement tile = new TileElement(maxY, 1);
-            	tile.scale(scalefactor,  scalefactor);
-            	tile.translate(new Point(pivot.getX(), maxY-ytranslate));
-            	tile.rotate(9*j*Math.PI/180, pivot);
-            	tlist.add(tile);
-            }
-            ytranslate += 30;
-            scalefactor -= 0.1;
-            
-            this.tilerings.add(tlist);
-        }
-
-        this.tilering1 = new ArrayList<TileElement>();
-        for (int i=1; i<=40; i++) {
-        	TileElement tile = new TileElement(maxY, 1);
-        	tile.translate(new Point(pivot.getX(), maxY-50));
-        	tile.rotate(9*i*Math.PI/180, pivot);
-        	this.tilering1.add(tile);
-        }
-        this.tilering2 = new ArrayList<TileElement>();
-        for (int i=1; i<=40; i++) {
-        	TileElement tile = new TileElement(maxY, 1);
-        	tile.scale(0.9, 0.9);
-        	tile.translate(new Point(pivot.getX(), maxY-80));
-        	tile.rotate(9*i*Math.PI/180, pivot);
-        	this.tilering2.add(tile);
-        }
-        this.tilering3 = new ArrayList<TileElement>();
-        for (int i=1; i<=40; i++) {
-        	TileElement tile = new TileElement(maxY, 1);
-        	tile.scale(0.8, 0.8);
-        	tile.translate(new Point(pivot.getX(), maxY-110));
-        	tile.rotate(9*i*Math.PI/180, pivot);
-        	this.tilering3.add(tile);
-        }
-        this.tilering4 = new ArrayList<TileElement>();
-        for (int i=1; i<=40; i++) {
-        	TileElement tile = new TileElement(maxY, 1);
-        	tile.scale(0.7, 0.7);
-        	tile.translate(new Point(pivot.getX(), maxY-140));
-        	tile.rotate(9*i*Math.PI/180, pivot);
-        	this.tilering4.add(tile);
-        }
-        this.tilering5 = new ArrayList<TileElement>();
-        for (int i=1; i<=40; i++) {
-        	TileElement tile = new TileElement(maxY, 1);
-        	tile.scale(0.6, 0.6);
-        	tile.translate(new Point(pivot.getX(), maxY-170));
-        	tile.rotate(9*i*Math.PI/180, pivot);
-        	this.tilering5.add(tile);
-        }
-        this.tilering6 = new ArrayList<TileElement>();
-        for (int i=1; i<=40; i++) {
-        	TileElement tile = new TileElement(maxY, 1);
-        	tile.scale(0.5, 0.5);
-        	tile.translate(new Point(pivot.getX(), maxY-200));
-        	tile.rotate(9*i*Math.PI/180, pivot);
-        	this.tilering6.add(tile);
-        }	
-    }
 
     public void clearCurve() {
         repaint();
@@ -192,6 +76,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
         
         /* New stuff.
 			http://stackoverflow.com/questions/30792089/java-graphics2d-translate-and-scale
+		*/
         double anchorX = (maxX - maxX*zoom)/2;
         double anchorY = (maxY - maxY*zoom)/2;
         AffineTransform at = new AffineTransform();
@@ -199,38 +84,19 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
         at.scale(zoom,  zoom);
         at.translate(-anchorX, -anchorY);
         g.setTransform(at);
-		*/
         /* End new stuff. */
 
-        /*
-        for (TileElement tile : tilering1) {
-        	tile.draw(g);
-        }
-        for (TileElement tile : tilering2) {
-        	tile.draw(g);
-        }
-        for (TileElement tile : tilering3) {
-        	tile.draw(g);
-        }
-        for (TileElement tile : tilering4) {
-        	tile.draw(g);
-        }
-        for (TileElement tile : tilering5) {
-        	tile.draw(g);
-        }
-        for (TileElement tile : tilering6) {
-        	tile.draw(g);
-        }
-        */
+        // Old way: g.scale(zoom,  zoom);
         
-        /*for (List<TileElement> tilering : tilerings) {
-        	for (TileElement tile : tilering) {
-        		tile.draw(g);
+        if ( ! mpoly.isEmpty()) {
+        	for (Polygon poly : mpoly) {
+        		poly.draw(g);
         	}
-        }*/
+        }
         
-        g.setColor(pointcolor);
-        g.fillArc((int)pivot.getX(), (int)pivot.getY(), arcwidth, arcwidth, 0, 360);
+        if ( ! polygon.isEmpty()) {
+        	polygon.draw(g);
+        }
         
         g.dispose();
     }
@@ -249,30 +115,27 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
     public void mouseClicked(MouseEvent e) {
-    	/*if (e.getButton() == 3) {
-    		this.doTriangulation();
+    	if (e.getButton() == 3) {
+    		polygon.clear();
     	} else if (e.getButton() == 1) {
-    		this.polygon.add(new Point(e.getX(), e.getY()));
-    	}*/
+    		polygon.add(new Point(e.getX(), e.getY()));
+    	}
     }
     public void mouseMoved(MouseEvent e) {
         setCursor(creator.getCurrCursor());		// Overkill?
     }
     
     public void mouseWheelMoved(MouseWheelEvent e) {
-    	double cw = 1.0;
-    	
-    	if (e.getWheelRotation() > 0) {
-    		cw = -1.0;
+    	double step = 0.05;
+    	if (e.getWheelRotation() > 0) { this.zoom += step; }
+    	else if (e.getWheelRotation() < 0) { this.zoom -= step; }
+
+    	if ( ! polygon.isEmpty()) {
+    		System.out.println("Area2= " + polygon.area());
     	}
-    	else if (e.getWheelRotation() < 0) {
-    		cw = 1.0;
-    	}
-    	
     	repaint();
     }
     
-    /*
     private void doTriangulation() {
 		polygon.clear();
 		Triangulator2 tri2 = new Triangulator2();
@@ -295,5 +158,4 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
 		}
     	
     }
-    */
 }
