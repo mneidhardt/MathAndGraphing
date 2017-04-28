@@ -1,7 +1,8 @@
 package dk.meem.graphing;
 
 import java.util.ArrayList;
-import dk.meem.graphing.primitive.Point;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WKTParser {
 	
@@ -13,6 +14,14 @@ public class WKTParser {
 	 */
 	private static ArrayList<String> parseWKTMulti(String geometry) {
 		ArrayList<String> slist = new ArrayList<String>();
+
+		Pattern pattern = Pattern.compile("\\s*MULTI\\w+\\s*");
+		Matcher matcher = pattern.matcher(geometry);
+		if (matcher.find()) {
+			geometry = geometry.substring(matcher.end());
+		} else {
+			return slist;
+		}
 		
 		String[] parts = geometry.trim().split("\\)\\)\\s*,");
 		
@@ -57,15 +66,16 @@ public class WKTParser {
 		return plistout;
 	}
 	
-	public static ArrayList<Polygon> fromWktMulti(String geometry) {
+	public static MultiGeometry fromWktMulti(String geometry) {
 		ArrayList<String> slist = parseWKTMulti(geometry);
-		ArrayList<Polygon> plist = new ArrayList<Polygon>();
-		
+		MultiGeometry mg = new MultiGeometry();
+
 		for (String s : slist) {
 			System.out.println("s="+s);
-			plist.add(unitFromWkt(s));
+			mg.add(fromWkt(s));
 		}
-		return plist;
+		
+		return mg;
 	}
 
 	public static Polygon fromWkt(String geometry) {

@@ -1,7 +1,12 @@
 package dk.meem.graphing;
 
-import dk.meem.graphing.primitive.Point;
+import java.awt.Graphics2D;
 
-abstract class Geometry {
+public interface Geometry {
+	
+	public void draw(Graphics2D g);
+	public Point firstPoint();
+	public void translate(Point p);
+	public String toString();
 
 }

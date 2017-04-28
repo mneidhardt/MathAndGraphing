@@ -5,10 +5,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.meem.graphing.primitive.Point;
-import dk.meem.graphing.primitive.Line;
-
-public class TileElement extends Geometry {
+public class TileElement {
 	List<Line> lines = new ArrayList<Line>();
 	int maxY;
 	

@@ -17,7 +17,7 @@ class Mainframe extends JFrame implements MouseListener, MouseMotionListener, Ac
    JDialog aboutDialog;
    JRadioButton addPoint;       // Global as I need to access this.
 
-   int maxX=950, maxY=800;
+   int maxX=1500, maxY=1200;
    int ctrlareaHeight=0;
 
    Cursor currcursor = new Cursor(Cursor.DEFAULT_CURSOR);

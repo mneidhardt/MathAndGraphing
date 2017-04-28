@@ -3,8 +3,6 @@ package dk.meem.graphing;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import dk.meem.graphing.primitive.Point;
-
 public class Trigonometric extends Mathfunction {
 	double frequency;
 	double amplitude;

@@ -1,4 +1,4 @@
-package dk.meem.graphing.primitive;
+package dk.meem.graphing;
 
 public class Line {
     private Point p1;

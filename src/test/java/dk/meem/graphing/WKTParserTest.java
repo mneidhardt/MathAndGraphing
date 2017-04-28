@@ -1,4 +1,4 @@
-package dk.meem.graphing.test;
+package dk.meem.graphing;
 
 import dk.meem.graphing.Polygon;
 import dk.meem.graphing.WKTParser;

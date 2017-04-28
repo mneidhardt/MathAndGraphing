@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import dk.meem.graphing.primitive.Point;
-
 public class Polynomial extends Mathfunction {
 	Color graphColor;
 	double[] coefficients;

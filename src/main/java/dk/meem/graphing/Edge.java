@@ -1,4 +1,4 @@
-package dk.meem.graphing.primitive;
+package dk.meem.graphing;
 
 public class Edge {
 	public int p1, p2;

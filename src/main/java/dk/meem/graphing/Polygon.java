@@ -3,9 +3,8 @@ package dk.meem.graphing;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import dk.meem.graphing.primitive.Point;
 
-public class Polygon {
+public class Polygon implements Geometry {
 	private Color graphColor = new Color(0,0,0);
 	private ArrayList<Point> polygon = new ArrayList<Point>();
 	
@@ -31,7 +30,7 @@ public class Polygon {
 	public void draw(Graphics2D g) {
 		g.setColor(graphColor);
 		
-		Point centro = this.centroid();
+		//Point centro = this.centroid();
 
 		for (int i=0; i<polygon.size(); i++) {
 			int j = (i+1) % polygon.size();
@@ -41,6 +40,32 @@ public class Polygon {
 		}
 		
 		//g.drawArc((int)centro.getX(), (int)centro.getY(), 6, 6, 0, 360);
+	}
+	
+	public Point firstPoint() {
+		if ( ! polygon.isEmpty()) {
+			return polygon.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	/* This moves all polygons, by translating them all 
+	 * by the first point in first polygon.
+	 */
+	public void toOrigo() {
+		Point base = this.firstPoint();
+		this.translate(base.multBy(-1.0));
+	}
+
+	public void translate(Point t) {
+		if (polygon.isEmpty()) {
+			return;
+		} else {
+			for (int i = 0; i<polygon.size(); i++) {
+				polygon.set(i, polygon.get(i).add(t));
+			}
+		}
 	}
 	
 	public void add(Point p) {

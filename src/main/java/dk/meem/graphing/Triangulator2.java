@@ -1,9 +1,5 @@
 package dk.meem.graphing;
 
-import dk.meem.graphing.primitive.Edge;
-import dk.meem.graphing.primitive.Point;
-import dk.meem.graphing.primitive.Triangle;
-
 /*
  *	ported from p bourke's triangulate.c
  *	http://astronomy.swin.edu.au/~pbourke/terrain/triangulate/triangulate.c
