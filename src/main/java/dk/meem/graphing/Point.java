@@ -52,6 +52,13 @@ public class Point {
 				         this.x*Math.sin(radians) + this.y*Math.cos(radians));
 	}
 
+    public Point rotate(double radians, Point pivot) {
+    	Point tmp = new Point(this.x - pivot.getX(), this.y - pivot.getY());
+		Point rp = new Point(tmp.getX()*Math.cos(radians) - tmp.getY()*Math.sin(radians),
+				             tmp.getX()*Math.sin(radians) + tmp.getY()*Math.cos(radians));
+		return rp.add(pivot);
+	}
+
     public String toString() {
         return (int)this.x + "," + (int)this.y;
     }
@@ -92,12 +99,20 @@ public class Point {
 		return x;
 	}
 
+	public int getXInt() {
+		return (int)Math.round(this.x);
+	}
+
 	public void setX(double x) {
 		this.x = x;
 	}
 
 	public double getY() {
 		return y;
+	}
+
+	public int getYInt() {
+		return (int)Math.round(this.y);
 	}
 
 	public void setY(double y) {

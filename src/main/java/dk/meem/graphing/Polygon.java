@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class Polygon implements Geometry {
-	private Color graphColor = new Color(0,0,0);
-	private ArrayList<Point> polygon = new ArrayList<Point>();
+	protected Color graphColor = new Color(0,0,0);
+	protected ArrayList<Point> polygon = new ArrayList<Point>();
 	
 	public Polygon() {
 	}
