@@ -153,8 +153,8 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
     
     public void mouseWheelMoved(MouseWheelEvent e) {
     	double step = 0.05;
-    	if (e.getWheelRotation() > 0) { this.zoom += step; }
-    	else if (e.getWheelRotation() < 0) { this.zoom -= step; }
+    	if (e.getWheelRotation() > 0) { this.cex.incFrequency(); }
+    	else if (e.getWheelRotation() < 0) { this.cex.decFrequency(); }
 
     	repaint();
     }
