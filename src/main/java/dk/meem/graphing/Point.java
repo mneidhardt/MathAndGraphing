@@ -60,7 +60,7 @@ public class Point {
 	}
 
     public String toString() {
-        return (int)this.x + "," + (int)this.y;
+        return this.x + "," + this.y;
     }
 
 @Override

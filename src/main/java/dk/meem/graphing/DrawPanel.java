@@ -118,13 +118,8 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
 		}
 		*/
         
-        cex.draw(g);
+        cex.drawEIP(g);
         g.dispose();
-    }
-    
-    private String roundNumber(double d) {
-    	DecimalFormat df = new DecimalFormat("#############.######");
-    	return df.format(d);
     }
     
     public void mousePressed(MouseEvent e) {
