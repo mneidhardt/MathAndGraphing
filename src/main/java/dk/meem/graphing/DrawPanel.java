@@ -30,7 +30,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener, Mo
     List<Polygon> polygons = new ArrayList<Polygon>();
     MultiGeometry mg;
     EquidistantPolygon ep = new EquidistantPolygon();
-    ComplexExponential cex = new ComplexExponential();
+    ComplexExponential cex = new ComplexExponential(new CosineSums());
     double zoom;
     
     Mainframe creator;
