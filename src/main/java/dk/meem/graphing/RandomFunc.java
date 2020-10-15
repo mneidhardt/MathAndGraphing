@@ -11,6 +11,6 @@ public class RandomFunc implements Function {
 	
 	public double evaluate(double x) {
 		
-		return random.nextInt(12);
+		return random.nextInt(3);
 	}
 }
